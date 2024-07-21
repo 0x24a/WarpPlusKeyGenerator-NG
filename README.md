@@ -1,5 +1,6 @@
 # WarpPlusKeyGenerator-NG
 Cloudflare Warp+ key generator.
+Generates 25PB keys by default.
 
 ## DISCLAIMER
 cloudflare please do not sue me  
