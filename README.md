@@ -21,9 +21,21 @@ If you just want to make a backup in case of a takedown, GIT PULL it, do NOT for
 `pip3 install -r requirements.txt`.
 
 ## Usage
-`python3 main.py <key quantity>`
+```
+usage: python3 main.py [-h] [-q QUANTITY] [-o OUTPUT]
 
-or just `python3 main.py` and the program will ask you for the quantity.
+Generates Warp+ Keys
+
+options:
+  -h, --help            show this help message and exit
+  -q QUANTITY, --quantity QUANTITY
+                        Key quantity
+  -o OUTPUT, --output OUTPUT
+                        Output the keys to a file.
+
+Made with ❤️ by 0x24a
+```
+Or just `python3 main.py`, that generates 1 key and prints it in the console.
 
 ## For developers
 
