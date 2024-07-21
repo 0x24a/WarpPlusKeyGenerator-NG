@@ -65,6 +65,7 @@ def register_single():
     )
     logger.debug("Registering")
     request = client.post("/reg").json()
+    client.close()
     user_id = request["id"]
     license_code = request["account"]["license"]
     token = request["token"]
