@@ -134,6 +134,9 @@ def cli(num: int):
                 key = generate_key(random.choice(BASE_KEYS))
                 keys.append(key)
                 break
+            except KeyboardInterrupt:
+                rich.print(f"[red]Cancelled[/red]")
+                exit(1)
             except:
                 sleep_time += 30
                 rich.print(f"\n[green]Retrying after {sleep_time}s...[/green]")
