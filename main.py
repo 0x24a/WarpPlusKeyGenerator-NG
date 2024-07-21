@@ -3,7 +3,7 @@ import logging
 import rich
 import time
 import random
-import sys
+import argparse
 
 logger = logging.getLogger("WarpGeneratorNG")
 
@@ -151,16 +151,34 @@ def cli(num: int):
             [f"[bold][yellow]{key.license_code}[/yellow][/bold]" for key in keys]
         )
     )
+    return keys
+
+def file_output(num: int, filename: str):
+    try:
+        file = open(filename, "w+")
+    except:
+        rich.print("[red]Failed to open file[/red]")
+        exit(1)
+    keys: list[GenerateResults] = cli(num=num)
+    keys = [key.license_code for key in keys]
+    file.write("\n".join(keys))
+    file.close()
+    rich.print(f"[bold][yellow]Wrote {len(keys)} key(s) to {filename} ![/yellow][/bold]")
 
 
 if __name__ == "__main__":
-    if len(sys.argv) == 1:
-        rich.print(f"Generate Number: ", end="")
-        num = input()
-        if not num.isdigit():
-            rich.print(f"[bold][red]Invaild number.[/red][/bold]")
-            exit(1)
-        num = int(num)
-        cli(num)
+    parser = argparse.ArgumentParser(
+                    prog='WarpPlusKeyGenerator-NG',
+                    description='Generates Warp+ Keys',
+                    epilog='Made with ❤️ by 0x24a')
+    parser.add_argument('-q', "--quantity", default=1, type=int, help="Key quantity", required=False)
+    parser.add_argument('-o', '--output',
+                    help="Output the keys to a file.",
+                    default=None)
+    args: argparse.Namespace = parser.parse_args()
+    if not args.output:
+        cli(args.quantity)
+        exit(0)
     else:
-        cli(int(sys.argv[1]))
+        file_output(args.quantity, args.output)
+        exit(0)
