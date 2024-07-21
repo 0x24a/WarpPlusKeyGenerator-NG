@@ -8,16 +8,16 @@ import argparse
 logger = logging.getLogger("WarpGeneratorNG")
 
 BASE_KEYS = [
-    "Ep3021DM-Wp9V6M37-51U3EaN7",
-    "XW84D29C-35b6OQ1i-3L24lzD9",
-    "n9F47fk8-K0RJC548-WF6k89Y3",
-    "35N8Hj4R-3A2a4Nn8-7z98xI2Y",
-    "V409lBw1-30a4ktY9-17ZR85gb",
-    "4D0Ux39r-0NZ25lt6-AL9d45n6",
-    "29x1Oph0-XC0oD132-726pM8DX",
-    "19V3Pd0r-BAo7w980-W72Se5t1",
-    "d1N82e7t-3D5Ba98T-9zX5y78C",
-    "a5E4W71j-9Ye2J4r3-bm9M26O8",
+    "a6p7K2e0-Z7ej890B-T12p8vb7",
+    "56Rt0O2S-6XF74gq0-8F127pKj",
+    "751xJA0Z-x4N6J7k1-i1C5I87e",
+    "t6u13bA9-Dj926li0-7XUr05s8",
+    "YUK9l850-ZO2K164I-92d35NIy",
+    "Z9Jnd751-C078ocv6-8n341Kse",
+    "39U0YG1q-d5KyB312-0Hnw596J",
+    "58o1A9hB-9wb142nS-0896mkFi",
+    "70I4JrU6-25Y4HAt1-53gIt84u",
+    "7348MJEz-75d3Q9Js-71HFM6I4",
 ]  # My keys, do not abuse uwu
 
 WARP_CLIENT_HEADERS = {
@@ -153,6 +153,7 @@ def cli(num: int):
     )
     return keys
 
+
 def file_output(num: int, filename: str):
     try:
         file = open(filename, "w+")
@@ -163,18 +164,23 @@ def file_output(num: int, filename: str):
     keys = [key.license_code for key in keys]
     file.write("\n".join(keys))
     file.close()
-    rich.print(f"[bold][yellow]Wrote {len(keys)} key(s) to {filename} ![/yellow][/bold]")
+    rich.print(
+        f"[bold][yellow]Wrote {len(keys)} key(s) to {filename} ![/yellow][/bold]"
+    )
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-                    prog='WarpPlusKeyGenerator-NG',
-                    description='Generates Warp+ Keys',
-                    epilog='Made with ❤️ by 0x24a')
-    parser.add_argument('-q', "--quantity", default=1, type=int, help="Key quantity", required=False)
-    parser.add_argument('-o', '--output',
-                    help="Output the keys to a file.",
-                    default=None)
+        prog="WarpPlusKeyGenerator-NG",
+        description="Generates Warp+ Keys",
+        epilog="Made with ❤️ by 0x24a",
+    )
+    parser.add_argument(
+        "-q", "--quantity", default=1, type=int, help="Key quantity", required=False
+    )
+    parser.add_argument(
+        "-o", "--output", help="Output the keys to a file.", default=None
+    )
     args: argparse.Namespace = parser.parse_args()
     if not args.output:
         cli(args.quantity)

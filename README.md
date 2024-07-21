@@ -1,6 +1,6 @@
 # WarpPlusKeyGenerator-NG
 Cloudflare Warp+ key generator.
-Generates 25PB keys by default.
+Generates keys with 1.92EB quota by default.
 
 ## Preview
 ![preview](preview.png)
