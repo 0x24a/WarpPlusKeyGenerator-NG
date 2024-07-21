@@ -127,7 +127,7 @@ def cli(num: int):
     rich.print(f"Loaded [blue][yellow]{len(BASE_KEYS)}[/yellow][/blue] Base Keys")
     keys = []
     for i in range(1, num + 1):
-        rich.print(f"Generating... [yellow]({i}/{num})[/yellow]")
+        rich.print(f"\nGenerating... [yellow]({i}/{num})[/yellow]")
         sleep_time = 0
         while 1:
             try:
@@ -139,10 +139,10 @@ def cli(num: int):
                 exit(1)
             except:
                 sleep_time += 30
-                rich.print(f"\n[green]Retrying after {sleep_time}s...[/green]")
+                rich.print(f"[green]Retrying after {sleep_time}s...[/green]")
                 time.sleep(sleep_time)
         rich.print(
-            f"\nAccount Type: \t[green][bold]{key.account_type}[/bold][/green]\nData Limit: \t[green][bold]{key.referral_count} GiB[/bold][/green]\nLicense Key: \t[green][bold]{key.license_code}[/bold][/green]"
+            f"Account Type: \t[green][bold]{key.account_type}[/bold][/green]\nData Limit: \t[green][bold]{key.referral_count} GiB[/bold][/green]\nLicense Key: \t[green][bold]{key.license_code}[/bold][/green]"
         )
     rich.print(
         "\nKeys:\n"

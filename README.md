@@ -2,6 +2,9 @@
 Cloudflare Warp+ key generator.
 Generates 25PB keys by default.
 
+## Preview
+![preview](preview.png)
+
 ## DISCLAIMER
 cloudflare please do not sue me  
 i did not make this generator  
