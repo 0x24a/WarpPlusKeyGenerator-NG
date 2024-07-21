@@ -129,7 +129,7 @@ def cli(num: int):
     keys = []
     for i in range(1, num + 1):
         rich.print(f"\nGenerating... [yellow]({i}/{num})[/yellow]")
-        sleep_time = 0
+        sleep_time = 30
         while 1:
             try:
                 key = generate_key(random.choice(BASE_KEYS))
