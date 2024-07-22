@@ -45,5 +45,8 @@ Register a WARP account. Returns the user object.
 ### generate_key(base_key)
 Generates a WARP+ key. Returns the GenerateResults object. We have some base_keys built in.(the BASE_KEYS const)
 
+## Stargazers over time
+[![Stargazers over time](https://starchart.cc/0x24a/WarpPlusKeyGenerator-NG.svg?variant=adaptive)](https://starchart.cc/0x24a/WarpPlusKeyGenerator-NG)
+
 Made by ~~24a~~ 24a's cat with ❤️  
 Enjoy!
