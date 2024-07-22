@@ -141,10 +141,10 @@ def cli(num: int):
                 exit(1)
             except BaseException as e:
                 sleep_time += 30
-                tb = traceback.format_tb()
-                tb = "\n".join(["[red]ERR![/red]\t[yellow]"+tb_line+"[/yellow]" for tb_line in tb.split('\n')])
+                tb = traceback.format_exc()
+                tb = "\n"+"\n".join(["[red]ERR![/red]\t[yellow]"+tb_line+"[/yellow]" for tb_line in tb.split('\n')])
                 rich.print(tb)
-                rich.print(f"[green]Retrying after {sleep_time}s...[/green]")
+                rich.print(f"\n[green]Retrying after {sleep_time}s...[/green]")
                 time.sleep(sleep_time)
         rich.print(
             f"Account Type: \t[green][bold]{key.account_type}[/bold][/green]\nData Limit: \t[green][bold]{key.referral_count} GiB[/bold][/green]\nLicense Key: \t[green][bold]{key.license_code}[/bold][/green]"
