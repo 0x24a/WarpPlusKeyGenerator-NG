@@ -4,6 +4,7 @@ import rich
 import time
 import random
 import argparse
+import traceback
 
 logger = logging.getLogger("WarpGeneratorNG")
 
@@ -138,8 +139,11 @@ def cli(num: int):
             except KeyboardInterrupt:
                 rich.print(f"[red]Cancelled[/red]")
                 exit(1)
-            except:
+            except BaseException as e:
                 sleep_time += 30
+                tb = traceback.format_tb()
+                tb = "\n".join(["[red]ERR![/red]\t[yellow]"+tb_line+"[/yellow]" for tb_line in tb.split('\n')])
+                rich.print(tb)
                 rich.print(f"[green]Retrying after {sleep_time}s...[/green]")
                 time.sleep(sleep_time)
         rich.print(
