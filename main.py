@@ -124,7 +124,7 @@ def generate_key(base_key: str) -> GenerateResults:
 
 def cli(num: int):
     rich.print("[bold][yellow]WARP+ Key Generator[/yellow][/bold]")
-    rich.print("By [blue]0x24a[/blue], Version [bold][green]v0.0.1[/green][/bold]\n")
+    rich.print("By [blue]0x24a[/blue], Version [bold][green]v0.0.3[/green][/bold]\n")
     rich.print(f"Loaded [blue][yellow]{len(BASE_KEYS)}[/yellow][/blue] Base Keys")
     keys = []
     for i in range(1, num + 1):
