@@ -9,17 +9,17 @@ import traceback
 logger = logging.getLogger("WarpGeneratorNG")
 
 BASE_KEYS = [
-    "a6p7K2e0-Z7ej890B-T12p8vb7",
-    "56Rt0O2S-6XF74gq0-8F127pKj",
-    "751xJA0Z-x4N6J7k1-i1C5I87e",
-    "t6u13bA9-Dj926li0-7XUr05s8",
-    "YUK9l850-ZO2K164I-92d35NIy",
-    "Z9Jnd751-C078ocv6-8n341Kse",
-    "39U0YG1q-d5KyB312-0Hnw596J",
-    "58o1A9hB-9wb142nS-0896mkFi",
-    "70I4JrU6-25Y4HAt1-53gIt84u",
-    "7348MJEz-75d3Q9Js-71HFM6I4",
-]  # My keys, do not abuse uwu
+    "p4Ra8A57-046obH7q-gN13Jp84",
+    "3LG48M1X-4BXz06O8-7u8p60nE",
+    "109Ooe6N-w8f5i71z-39f56Mvs",
+    "G2617HDt-5BD93Z1b-93ovR52G",
+    "iE0U9R76-DY79u84P-L5sM37o2",
+    "J1UyT860-cQ2e4b91-492Sj1bk",
+    "87Nznx25-D6L1P48v-8x576mtg",
+    "70b61PmS-PAa7z491-96uOx23Q",
+    "bI1D8H79-1GyN063g-OL48HY61",
+    "3O41ncT7-2F7q09eu-t518x4bf",
+]
 
 WARP_CLIENT_HEADERS = {
     "CF-Client-Version": "a-6.11-2223",
@@ -142,7 +142,12 @@ def cli(num: int):
             except BaseException as e:
                 sleep_time += 30
                 tb = traceback.format_exc()
-                tb = "\n"+"\n".join(["[red]ERR![/red]\t[yellow]"+tb_line+"[/yellow]" for tb_line in tb.split('\n')])
+                tb = "\n" + "\n".join(
+                    [
+                        "[red]ERR![/red]\t[yellow]" + tb_line + "[/yellow]"
+                        for tb_line in tb.split("\n")
+                    ]
+                )
                 rich.print(tb)
                 rich.print(f"\n[green]Retrying after {sleep_time}s...[/green]")
                 time.sleep(sleep_time)
