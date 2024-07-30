@@ -123,20 +123,31 @@ def generate_key(base_key: str) -> GenerateResults:
     )
 
 
-def cli(num: int):
+def cli(num: int, base_keys: list[str] = []):
     rich.print("[bold][yellow]WARP+ Key Generator[/yellow][/bold]")
     rich.print("By [blue]0x24a[/blue], Version [bold][green]v0.0.4[/green][/bold]")
-    rich.print("[green]Loading basekeys from the Github Repo...[/green]")
-    try:
-        request = httpx.get("https://raw.githubusercontent.com/0x24a/WarpPlusKeyGenerator-NG/main/BASE_KEYS.txt",timeout=5).text
-        keys = request.split("\n")
-        for key in keys:
-            assert len(key) == 26
-            assert key.count("-") == 2
-        base_keys = keys
-    except:
-        rich.print("[yellow]Failed to load basekeys from the repo. Using the fallback basekeys...[/yellow]")
-        base_keys = FALLBACK_BASE_KEYS
+    if not base_keys:
+        rich.print("[green]Loading basekeys from the Github Repo...[/green]")
+        try:
+            request = httpx.get(
+                "https://raw.githubusercontent.com/0x24a/WarpPlusKeyGenerator-NG/main/BASE_KEYS.txt",
+                timeout=5,
+            ).text
+            keys = request.split("\n")
+            for key in keys:
+                assert len(key) == 26
+                assert key.count("-") == 2
+            base_keys = keys
+        except:
+            rich.print(
+                "[yellow]Failed to load basekeys from the repo. Using the fallback basekeys...[/yellow]"
+            )
+            base_keys = FALLBACK_BASE_KEYS
+    else:
+        for key in base_keys:
+            if len(key) != 26 or key.count("-") != 2:
+                rich.print(f"[red]Invaild base_key: {key}[/red]")
+                exit(1)
     rich.print(f"\nLoaded [blue][yellow]{len(base_keys)}[/yellow][/blue] Base Keys")
     keys = []
     for i in range(1, num + 1):
@@ -174,13 +185,13 @@ def cli(num: int):
     return keys
 
 
-def file_output(num: int, filename: str):
+def file_output(num: int, filename: str, base_keys: list[str] = []):
     try:
         file = open(filename, "w+")
     except:
         rich.print("[red]Failed to open file[/red]")
         exit(1)
-    keys: list[GenerateResults] = cli(num=num)
+    keys: list[GenerateResults] = cli(num=num, base_keys=base_keys)
     keys = [key.license_code for key in keys]
     file.write("\n".join(keys))
     file.close()
@@ -201,9 +212,12 @@ if __name__ == "__main__":
     parser.add_argument(
         "-o", "--output", help="Output the keys to a file.", default=None
     )
+    parser.add_argument(
+        "-b", "--basekeys", help="Specify comma-separated basekeys.", default=""
+    )
     args: argparse.Namespace = parser.parse_args()
     if not args.output:
-        cli(args.quantity)
+        cli(args.quantity, args.basekeys.split(","))
         exit(0)
     else:
         file_output(args.quantity, args.output)
