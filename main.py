@@ -213,12 +213,12 @@ if __name__ == "__main__":
         "-o", "--output", help="Output the keys to a file.", default=None
     )
     parser.add_argument(
-        "-b", "--basekeys", help="Specify comma-separated basekeys.", default=""
+        "-b", "--basekeys", help="Specify comma-separated basekeys.", default=None
     )
     args: argparse.Namespace = parser.parse_args()
     if not args.output:
-        cli(args.quantity, args.basekeys.split(","))
+        cli(args.quantity, args.basekeys.split(",") if args.basekeys else [])
         exit(0)
     else:
-        file_output(args.quantity, args.output)
+        file_output(args.quantity, args.output, args.basekeys.split(",") if args.basekeys else [])
         exit(0)
