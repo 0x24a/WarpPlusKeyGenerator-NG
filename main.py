@@ -9,16 +9,16 @@ import traceback
 logger = logging.getLogger("WarpGeneratorNG")
 
 BASE_KEYS = [
-    "p4Ra8A57-046obH7q-gN13Jp84",
-    "3LG48M1X-4BXz06O8-7u8p60nE",
-    "109Ooe6N-w8f5i71z-39f56Mvs",
-    "G2617HDt-5BD93Z1b-93ovR52G",
-    "iE0U9R76-DY79u84P-L5sM37o2",
-    "J1UyT860-cQ2e4b91-492Sj1bk",
-    "87Nznx25-D6L1P48v-8x576mtg",
-    "70b61PmS-PAa7z491-96uOx23Q",
-    "bI1D8H79-1GyN063g-OL48HY61",
-    "3O41ncT7-2F7q09eu-t518x4bf",
+    "578Ko2xd-36K7DMX2-4V812ame",
+    "94lB36du-4960HEzs-68E5jd3I",
+    "28R1r9iF-6Li9Kq27-U514Yx8l",
+    "k18ba35e-5whgj679-8Pi34nI2",
+    "3MqFO712-DL4Q678q-5R6DN2z0",
+    "2F05CD1P-7CJ0g2I5-B3hO4b56",
+    "68y15EAJ-C3519JfR-zve6847x",
+    "7I8n60ds-Chy26D57-5W21IFH8",
+    "U4C071LW-JhT604K8-3a6s27uT",
+    "aAsQ1072-fy983J0c-r432m6ZG",
 ]
 
 WARP_CLIENT_HEADERS = {
