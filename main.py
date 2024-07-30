@@ -125,7 +125,7 @@ def generate_key(base_key: str) -> GenerateResults:
 
 def cli(num: int):
     rich.print("[bold][yellow]WARP+ Key Generator[/yellow][/bold]")
-    rich.print("By [blue]0x24a[/blue], Version [bold][green]v0.0.3[/green][/bold]")
+    rich.print("By [blue]0x24a[/blue], Version [bold][green]v0.0.4[/green][/bold]")
     rich.print("[green]Loading basekeys from the Github Repo...[/green]")
     try:
         request = httpx.get("https://raw.githubusercontent.com/0x24a/WarpPlusKeyGenerator-NG/main/BASE_KEYS.txt",timeout=5).text
