@@ -8,7 +8,7 @@ import traceback
 
 logger = logging.getLogger("WarpGeneratorNG")
 
-BASE_KEYS = [
+FALLBACK_BASE_KEYS = [
     "578Ko2xd-36K7DMX2-4V812ame",
     "94lB36du-4960HEzs-68E5jd3I",
     "28R1r9iF-6Li9Kq27-U514Yx8l",
@@ -126,14 +126,25 @@ def generate_key(base_key: str) -> GenerateResults:
 def cli(num: int):
     rich.print("[bold][yellow]WARP+ Key Generator[/yellow][/bold]")
     rich.print("By [blue]0x24a[/blue], Version [bold][green]v0.0.3[/green][/bold]\n")
-    rich.print(f"Loaded [blue][yellow]{len(BASE_KEYS)}[/yellow][/blue] Base Keys")
+    rich.print("[green]Loading basekeys from the Github Repo...[/green]")
+    try:
+        request = httpx.get("https://raw.githubusercontent.com/0x24a/WarpPlusKeyGenerator-NG/main/BASE_KEYS.txt",timeout=5).text
+        keys = request.split("\n")
+        for key in keys:
+            assert len(key) == 26
+            assert key.count("-") == 2
+        base_keys = keys
+    except:
+        rich.print("[yellow]Failed to load basekeys from the repo. Using the fallback basekeys...[/yellow]")
+        base_keys = FALLBACK_BASE_KEYS
+    rich.print(f"Loaded [blue][yellow]{len(base_keys)}[/yellow][/blue] Base Keys")
     keys = []
     for i in range(1, num + 1):
         rich.print(f"\nGenerating... [yellow]({i}/{num})[/yellow]")
         sleep_time = 30
         while 1:
             try:
-                key = generate_key(random.choice(BASE_KEYS))
+                key = generate_key(random.choice(base_keys))
                 keys.append(key)
                 break
             except KeyboardInterrupt:
