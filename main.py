@@ -182,7 +182,7 @@ def cli(num: int, base_keys: list[str] = []):
             [f"[bold][yellow]{key.license_code}[/yellow][/bold]" for key in result_keys]
         )
     )
-    return keys
+    return result_keys
 
 
 def file_output(num: int, filename: str, base_keys: list[str] = []):
