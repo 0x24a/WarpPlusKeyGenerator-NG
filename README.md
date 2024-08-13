@@ -13,7 +13,7 @@ do not sue me
 sue my cat
 
 ## Something you should know
-If you want to use this library in your project, please link to my github page! thanks!  
+If you want to use this library in your project, please place a link to my github page! thanks!  
 Also, if you don't want to make changes to this repo, DO NOT FORK THIS, because I will get LOTS of notifications.  
 If you just want to make a backup in case of a takedown, GIT PULL it, DO NOT fork it.
 
