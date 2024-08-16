@@ -152,14 +152,14 @@ def cli(num: int, base_keys: list[str] = []):
                 rich.print(f"[red]Invaild base_key: {key}[/red]")
                 exit(1)
     rich.print(f"\nLoaded [blue][yellow]{len(base_keys)}[/yellow][/blue] Base Keys")
-    keys = []
+    result_keys: list[GenerateResults] = []
     for i in range(1, num + 1):
         rich.print(f"\nGenerating... [yellow]({i}/{num})[/yellow]")
         sleep_time = 30
         while 1:
             try:
-                key = generate_key(random.choice(base_keys))
-                keys.append(key)
+                single_key = generate_key(random.choice(base_keys))
+                result_keys.append(single_key)
                 break
             except KeyboardInterrupt:
                 rich.print(f"[red]Cancelled[/red]")
@@ -177,15 +177,17 @@ def cli(num: int, base_keys: list[str] = []):
                 rich.print(f"\n[green]Retrying after {sleep_time}s...[/green]")
                 time.sleep(sleep_time)
         rich.print(
-            f"Account Type: \t[green][bold]{key.account_type}[/bold][/green]\nData Limit: \t[green][bold]{key.referral_count} GiB[/bold][/green]\nLicense Key: \t[green][bold]{key.license_code}[/bold][/green]"
+            f"Account Type: \t[green][bold]{single_key.account_type}[/bold][/green]\nData Limit: \t[green][bold]{single_key.referral_count} GiB[/bold][/green]\nLicense Key: \t[green][bold]{single_key.license_code}[/bold][/green]"
         )
+        if single_key.referral_count <= 1:
+            rich.print(f"[red]WARN[/red]\t[yellow]Generation problems detected, please open an issue at https://github.com/0x24a/WarpPlusKeyGenerator-NG/issues[/yellow]")
     rich.print(
         "\nKeys:\n"
         + "\n".join(
-            [f"[bold][yellow]{key.license_code}[/yellow][/bold]" for key in keys]
+            [f"[bold][yellow]{key.license_code}[/yellow][/bold]" for key in result_keys]
         )
     )
-    return keys
+    return result_keys
 
 
 def file_output(num: int, filename: str,append: bool, base_keys: list[str] = []):
@@ -197,8 +199,8 @@ def file_output(num: int, filename: str,append: bool, base_keys: list[str] = [])
         rich.print("[red]Failed to open file[/red]")
         exit(1)
     keys: list[GenerateResults] = cli(num=num, base_keys=base_keys)
-    keys = [key.license_code for key in keys]
-    file.write("\n".join(keys)+"\n")
+    key_codes = [key.license_code for key in keys]
+    file.write("\n".join(keys_codes)+"\n")
     file.close()
     rich.print(
         f"[bold][yellow]Wrote {len(keys)} key(s) to {filename} ![/yellow][/bold]"
