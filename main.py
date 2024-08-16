@@ -5,6 +5,9 @@ import time
 import random
 import argparse
 import traceback
+import os
+import shutil
+from datetime import datetime
 
 logger = logging.getLogger("WarpGeneratorNG")
 
@@ -187,15 +190,17 @@ def cli(num: int, base_keys: list[str] = []):
     return result_keys
 
 
-def file_output(num: int, filename: str, base_keys: list[str] = []):
+def file_output(num: int, filename: str,append: bool, base_keys: list[str] = []):
+    if os.path.exists(filename) and not append:
+        shutil.move(filename,f"{filename}.{datetime.now()}bkp")
     try:
-        file = open(filename, "w+")
+        file = open(filename, "w+" if not append else "a")
     except:
         rich.print("[red]Failed to open file[/red]")
         exit(1)
     keys: list[GenerateResults] = cli(num=num, base_keys=base_keys)
     key_codes = [key.license_code for key in keys]
-    file.write("\n".join(key_codes))
+    file.write("\n".join(keys_codes)+"\n")
     file.close()
     rich.print(
         f"[bold][yellow]Wrote {len(keys)} key(s) to {filename} ![/yellow][/bold]"
@@ -215,6 +220,9 @@ if __name__ == "__main__":
         "-o", "--output", help="Output the keys to a file.", default=None
     )
     parser.add_argument(
+        "-a", "--append", action='store_true', default=False, help="Wether to append to file(if not flagged then overwrite)."
+    )
+    parser.add_argument(
         "-b", "--basekeys", help="Specify comma-separated basekeys.", default=None
     )
     args: argparse.Namespace = parser.parse_args()
@@ -222,5 +230,5 @@ if __name__ == "__main__":
         cli(args.quantity, args.basekeys.split(",") if args.basekeys else [])
         exit(0)
     else:
-        file_output(args.quantity, args.output, args.basekeys.split(",") if args.basekeys else [])
+        file_output(args.quantity, args.output, args.append, args.basekeys.split(",") if args.basekeys else [])
         exit(0)
