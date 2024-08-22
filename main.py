@@ -200,7 +200,7 @@ def file_output(num: int, filename: str,append: bool, base_keys: list[str] = [])
         exit(1)
     keys: list[GenerateResults] = cli(num=num, base_keys=base_keys)
     key_codes = [key.license_code for key in keys]
-    file.write("\n".join(keys_codes)+"\n")
+    file.write("\n".join(key_codes)+"\n")
     file.close()
     rich.print(
         f"[bold][yellow]Wrote {len(keys)} key(s) to {filename} ![/yellow][/bold]"
