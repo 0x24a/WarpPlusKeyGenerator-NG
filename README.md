@@ -32,6 +32,8 @@ options:
                         Key quantity
   -o OUTPUT, --output OUTPUT
                         Output the keys to a file.
+  -l LANGUAGE, --language LANGUAGE
+                        Specify language (CN for Chinese, EN for English, default is English).
 
 Made with ❤️ by 0x24a
 ```

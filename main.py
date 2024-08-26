@@ -126,11 +126,19 @@ def generate_key(base_key: str) -> GenerateResults:
     )
 
 
-def cli(num: int, base_keys: list[str] = []):
-    rich.print("[bold][yellow]WARP+ Key Generator[/yellow][/bold]")
-    rich.print("By [blue]0x24a[/blue], Version [bold][green]v0.0.4[/green][/bold]")
+def cli(num: int, base_keys: list[str] = [], language: str = "en"):
+    if language == "CN":
+        rich.print("[bold][yellow]WARP+ 密钥生成器[/yellow][/bold]")
+        rich.print("By [blue]0x24a[/blue], 版本 [bold][green]v0.0.4[/green][/bold]")
+    else:
+        rich.print("[bold][yellow]WARP+ Key Generator[/yellow][/bold]")
+        rich.print("By [blue]0x24a[/blue], Version [bold][green]v0.0.4[/green][/bold]")
+    
     if not base_keys:
-        rich.print("[green]Loading basekeys from the Github Repo...[/green]")
+        if language == "CN":
+            rich.print("[green]从Github Repo加载basekeys...[/green]")
+        else:
+            rich.print("[green]Loading basekeys from the Github Repo...[/green]")
         try:
             request = httpx.get(
                 "https://raw.githubusercontent.com/0x24a/WarpPlusKeyGenerator-NG/main/BASE_KEYS.txt",
@@ -142,19 +150,29 @@ def cli(num: int, base_keys: list[str] = []):
                 assert key.count("-") == 2
             base_keys = keys
         except:
-            rich.print(
-                "[yellow]Failed to load basekeys from the repo. Using the fallback basekeys...[/yellow]"
-            )
+            if language == "CN":
+                rich.print("[yellow]从repo加载basekeys失败，使用备用basekeys...[/yellow]")
+            else:
+                rich.print("[yellow]Failed to load basekeys from the repo. Using the fallback basekeys...[/yellow]")
             base_keys = FALLBACK_BASE_KEYS
     else:
         for key in base_keys:
             if len(key) != 26 or key.count("-") != 2:
-                rich.print(f"[red]Invaild base_key: {key}[/red]")
+                if language == "CN":
+                    rich.print(f"[red]无效的base_key: {key}[/red]")
+                else:
+                    rich.print(f"[red]Invaild base_key: {key}[/red]")
                 exit(1)
-    rich.print(f"\nLoaded [blue][yellow]{len(base_keys)}[/yellow][/blue] Base Keys")
+    if language == "CN":
+        rich.print(f"\n加载了 [blue][yellow]{len(base_keys)}[/yellow][/blue] 个Base Keys")
+    else:
+        rich.print(f"\nLoaded [blue][yellow]{len(base_keys)}[/yellow][/blue] Base Keys")
     result_keys: list[GenerateResults] = []
     for i in range(1, num + 1):
-        rich.print(f"\nGenerating... [yellow]({i}/{num})[/yellow]")
+        if language == "CN":
+            rich.print(f"\n生成中... [yellow]({i}/{num})[/yellow]")
+        else:
+            rich.print(f"\nGenerating... [yellow]({i}/{num})[/yellow]")
         sleep_time = 30
         while 1:
             try:
@@ -162,7 +180,10 @@ def cli(num: int, base_keys: list[str] = []):
                 result_keys.append(single_key)
                 break
             except KeyboardInterrupt:
-                rich.print(f"[red]Cancelled[/red]")
+                if language == "CN":
+                    rich.print(f"[red]已取消[/red]")
+                else:
+                    rich.print(f"[red]Cancelled[/red]")
                 exit(1)
             except BaseException as e:
                 sleep_time += 30
@@ -174,37 +195,63 @@ def cli(num: int, base_keys: list[str] = []):
                     ]
                 )
                 rich.print(tb)
-                rich.print(f"\n[green]Retrying after {sleep_time}s...[/green]")
+                if language == "CN":
+                    rich.print(f"\n[green]将在 {sleep_time}s 后重试...[/green]")
+                else:
+                    rich.print(f"\n[green]Retrying after {sleep_time}s...[/green]")
                 time.sleep(sleep_time)
+        if language == "CN":
+            rich.print(
+                f"账户类型: \t[green][bold]{single_key.account_type}[/bold][/green]\n数据限制: \t[green][bold]{single_key.referral_count} GiB[/bold][/green]\n许可证密钥: \t[green][bold]{single_key.license_code}[/bold][/green]"
+            )
+            if single_key.referral_count <= 1:
+                rich.print(f"[red]警告[/red]\t[yellow]检测到生成问题，请在 https://github.com/0x24a/WarpPlusKeyGenerator-NG/issues 打开一个issue[/yellow]")
+        else:
+            rich.print(
+                f"Account Type: \t[green][bold]{single_key.account_type}[/bold][/green]\nData Limit: \t[green][bold]{single_key.referral_count} GiB[/bold][/green]\nLicense Key: \t[green][bold]{single_key.license_code}[/bold][/green]"
+            )
+            if single_key.referral_count <= 1:
+                rich.print(f"[red]WARN[/red]\t[yellow]Generation problems detected, please open an issue at https://github.com/0x24a/WarpPlusKeyGenerator-NG/issues[/yellow]")
+    if language == "CN":
         rich.print(
-            f"Account Type: \t[green][bold]{single_key.account_type}[/bold][/green]\nData Limit: \t[green][bold]{single_key.referral_count} GiB[/bold][/green]\nLicense Key: \t[green][bold]{single_key.license_code}[/bold][/green]"
+            "\n密钥:\n"
+            + "\n".join(
+                [f"[bold][yellow]{key.license_code}[/yellow][/bold]" for key in result_keys]
+            )
         )
-        if single_key.referral_count <= 1:
-            rich.print(f"[red]WARN[/red]\t[yellow]Generation problems detected, please open an issue at https://github.com/0x24a/WarpPlusKeyGenerator-NG/issues[/yellow]")
-    rich.print(
-        "\nKeys:\n"
-        + "\n".join(
-            [f"[bold][yellow]{key.license_code}[/yellow][/bold]" for key in result_keys]
+    else:
+        rich.print(
+            "\nKeys:\n"
+            + "\n".join(
+                [f"[bold][yellow]{key.license_code}[/yellow][/bold]" for key in result_keys]
+            )
         )
-    )
     return result_keys
 
 
-def file_output(num: int, filename: str,append: bool, base_keys: list[str] = []):
+def file_output(num: int, filename: str, append: bool, base_keys: list[str] = [], language: str = "en"):
     if os.path.exists(filename) and not append:
-        shutil.move(filename,f"{filename}.{datetime.now()}bkp")
+        shutil.move(filename, f"{filename}.{datetime.now()}bkp")
     try:
         file = open(filename, "w+" if not append else "a")
     except:
-        rich.print("[red]Failed to open file[/red]")
+        if language == "CN":
+            rich.print("[red]打开文件失败[/red]")
+        else:
+            rich.print("[red]Failed to open file[/red]")
         exit(1)
-    keys: list[GenerateResults] = cli(num=num, base_keys=base_keys)
+    keys: list[GenerateResults] = cli(num=num, base_keys=base_keys, language=language)
     key_codes = [key.license_code for key in keys]
-    file.write("\n".join(key_codes)+"\n")
+    file.write("\n".join(key_codes) + "\n")
     file.close()
-    rich.print(
-        f"[bold][yellow]Wrote {len(keys)} key(s) to {filename} ![/yellow][/bold]"
-    )
+    if language == "CN":
+        rich.print(
+            f"[bold][yellow]已将 {len(keys)} 个密钥写入 {filename} ![/yellow][/bold]"
+        )
+    else:
+        rich.print(
+            f"[bold][yellow]Wrote {len(keys)} key(s) to {filename} ![/yellow][/bold]"
+        )
 
 
 if __name__ == "__main__":
@@ -225,10 +272,13 @@ if __name__ == "__main__":
     parser.add_argument(
         "-b", "--basekeys", help="Specify comma-separated basekeys.", default=None
     )
+    parser.add_argument(
+        "-l", "--language", help="Specify language (CN for Chinese, EN for English, default is English).", default="en", choices=["CN", "EN"]
+    )
     args: argparse.Namespace = parser.parse_args()
     if not args.output:
-        cli(args.quantity, args.basekeys.split(",") if args.basekeys else [])
+        cli(args.quantity, args.basekeys.split(",") if args.basekeys else [], args.language)
         exit(0)
     else:
-        file_output(args.quantity, args.output, args.append, args.basekeys.split(",") if args.basekeys else [])
+        file_output(args.quantity, args.output, args.append, args.basekeys.split(",") if args.basekeys else [], args.language)
         exit(0)
